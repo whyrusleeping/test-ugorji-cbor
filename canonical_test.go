@@ -47,7 +47,6 @@ func init() {
 			},
 		},
 	}
-	tc4 = tc3
 
 	testCases = []interface{}{tc1, tc2, tc3, tc4}
 }
