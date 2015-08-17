@@ -65,8 +65,8 @@ func TestRoundtripCheck(t *testing.T) {
 
 	h := &codec.CborHandle{}
 	h.Canonical = true
-	f := func(o1 map[string]string) bool {
-		var o2 map[string]string
+	f := func(o1 map[string]map[string]string) bool {
+		var o2 map[string]map[string]string
 		return RoundTripTest(t, h, &o1, &o2)
 	}
 	if err := quick.Check(f, nil); err != nil {
