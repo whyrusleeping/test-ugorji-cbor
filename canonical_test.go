@@ -3,8 +3,6 @@ package canonicaltest
 import (
 	"testing"
 	"testing/quick"
-
-	codec "github.com/ugorji/go/codec"
 )
 
 var testCases []interface{}
@@ -52,22 +50,18 @@ func init() {
 }
 
 func TestRoundtripBasic(t *testing.T) {
-	h := &codec.CborHandle{}
-	h.Canonical = true
 	for _, tca := range testCases {
 		var tcb map[string]interface{}
-		RoundTripTest(t, h, &tca, &tcb)
+		RoundTripTest(t, &tca, &tcb)
 	}
 }
 
 func TestRoundtripCheck(t *testing.T) {
 	t.Skip("skipping TestRoundtripCheck")
 
-	h := &codec.CborHandle{}
-	h.Canonical = true
 	f := func(o1 map[string]map[string]string) bool {
 		var o2 map[string]map[string]string
-		return RoundTripTest(t, h, &o1, &o2)
+		return RoundTripTest(t, &o1, &o2)
 	}
 	if err := quick.Check(f, nil); err != nil {
 		t.Error(err)

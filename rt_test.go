@@ -5,16 +5,16 @@ import (
 	"encoding/json"
 	"testing"
 
-	codec "github.com/ugorji/go/codec"
+	cbor "github.com/whyrusleeping/cbor/go"
 )
 
-func RoundTripTest(t *testing.T, h codec.Handle, o1, o2 interface{}) bool {
+func RoundTripTest(t *testing.T, o1, o2 interface{}) bool {
 	var buf1 bytes.Buffer
 	var buf2 bytes.Buffer
 	var buf3 bytes.Buffer
-	enc1 := codec.NewEncoder(&buf1, h)
-	enc2 := codec.NewEncoder(&buf2, h)
-	dec := codec.NewDecoder(&buf3, h)
+	enc1 := cbor.NewEncoder(&buf1)
+	enc2 := cbor.NewEncoder(&buf2)
+	dec := cbor.NewDecoder(&buf3)
 
 	if err := enc1.Encode(o1); err != nil {
 		t.Error(err)
@@ -42,6 +42,8 @@ func RoundTripTest(t *testing.T, h codec.Handle, o1, o2 interface{}) bool {
 		t.Error("marshalled values not equal")
 		t.Log(m1)
 		t.Log(m2)
+		t.Log(string(m1))
+		t.Log(string(m2))
 		return false
 	}
 
